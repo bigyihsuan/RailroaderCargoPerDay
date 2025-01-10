@@ -1,0 +1,9 @@
+{
+	"Id": "CargoPerDay",
+	"Version": "1.0.0",
+	"DisplayName": "CargoPerDay",
+	"Author": "bigyihsuan",
+	"EntryMethod": "CargoPerDay.Main.Load",
+	"ManagerVersion": "0.31.1.0",
+	"Repository": "https://raw.githubusercontent.com/bigyihsuan/CargoPerDay/master/repository.json"
+}

@@ -1,0 +1,9 @@
+{
+	"Releases": [
+		{
+			"Id": "CargoPerDay",
+			"Version": "1.0.0",
+			"DownloadUrl": "https://github.com/bigyihsuan/RailroaderCargoPerDay/releases/download/v1.0.0/CargoPerDay_v1.0.0.zip"
+		}
+	]
+}
