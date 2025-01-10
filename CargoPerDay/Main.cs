@@ -38,30 +38,30 @@ namespace CargoPerDay
     }
 
 
-    [HarmonyPatch(typeof(IndustryLoader), "PanelFields")]
+    [HarmonyPatch(typeof(IndustryLoader), nameof(IndustryLoader.PanelFields))]
     class IndustryLoaderPanelFieldsPatch
     {
         static IEnumerable<PanelField> Postfix(IEnumerable<PanelField> values, IndustryLoader __instance, IndustryContext ctx)
         {
-            foreach (var value in values)
+            if (__instance.Industry.GetContractMultiplier() < 0.001f)
             {
-                if (!__instance.load.importable)
-                { 
-                    int totalTrackLength = __instance.TrackSpans.Sum((TrackSpan ts) => Mathf.FloorToInt(ts.Length * 3.28084f / 50f));
-                    var cargo = Mathf.FloorToInt(
-                        Mathf.Min(
-                            __instance.productionRate,
-                            __instance.carLoadRate * (float)totalTrackLength
-                    ));
-                    var description = __instance.load.description;
-                    var format = "{0} @ {1}/day";
-                    yield return new PanelField("Production", string.Format(format, arg0: description, arg1: __instance.load.units.QuantityString(cargo)), "Cargo produced");
-                }
-                if (!__instance.orderEmpties)
-                {
-                    yield return PanelField.InStorage(quantityInStorage: ctx.QuantityInStorage(__instance.load), load: __instance.load, effectiveStorage: __instance.maxStorage);
-                }
                 yield break;
+            }
+            if (!__instance.load.importable)
+            {
+                int totalTrackLength = __instance.TrackSpans.Sum((TrackSpan ts) => Mathf.FloorToInt(ts.Length * 3.28084f / 50f));
+                var cargo = Mathf.FloorToInt(
+                    Mathf.Min(
+                        __instance.productionRate,
+                        __instance.carLoadRate * (float)totalTrackLength
+                ));
+                var description = __instance.load.description;
+                var format = "{0} @ {1}/day";
+                yield return new PanelField("Production", string.Format(format, arg0: description, arg1: __instance.load.units.QuantityString(cargo)), "Cargo produced");
+            }
+            if (!__instance.orderEmpties)
+            {
+                yield return PanelField.InStorage(quantityInStorage: ctx.QuantityInStorage(__instance.load), load: __instance.load, effectiveStorage: __instance.maxStorage);
             }
         }
     }
